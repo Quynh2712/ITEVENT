@@ -1,0 +1,97 @@
+<title>Add Event | TDTU</title>
+
+<div class="container" style="padding-top: 150px;">
+    <div class="titlepage text_align_center">
+        <h2>{{add-event}}</h2>
+    </div>
+
+    <form action="/event" method="POST" class="main_form">
+        <div class="form-group">
+            <input type="text" class="form-control contactus" id="eventName" name="eventName" required
+                placeholder="Event Name*">
+        </div>
+        <div class="row">
+            <div class="form-group col-md-6">
+                <label for="startDate">Ngày bắt đầu:</label>
+                <input type="date" class="form-control contactus" id="startDate" name="startDate" required>
+            </div>
+
+            <div class="form-group col-md-6">
+                <label for="endDate">Ngày kết thúc:</label>
+                <input type="date" class="form-control contactus" id="endDate" name="endDate" required>
+            </div>
+
+        </div>
+
+        <div class="form-group">
+            <input type="text" class="form-control contactus" id="location" name="location" required
+                placeholder="Location*">
+        </div>
+
+        <div class="form-group">
+            <textarea class="form-control textarea" id="description" name="description" required
+                placeholder="Description"></textarea>
+        </div>
+
+        <div class="form-group select-outline">
+            <select class="form-control custom-select" id="eventType" name="eventType" required>
+                <option selected>Type Event</option>
+                <option value="personal">Cá nhân</option>
+                <option value="group">Group</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <div class="main_full">
+                <div class="container">
+                    <div class="panel">
+                        <div class="button_outer">
+                            <div class="btn_upload">
+                                <input type="file" id="upload_file" name="">
+                                Upload Image
+                            </div>
+                            <div class="processing_bar"></div>
+                            <div class="success_box"></div>
+                        </div>
+                    </div>
+                    <div class="error_msg"></div>
+                    <div class="uploaded_file_view" id="uploaded_view">
+                        <span class="file_remove">X</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <button type="submit" class="send_btn">Tạo sự kiện</button>
+    </form>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script>
+    var btnUpload = $("#upload_file"),
+        btnOuter = $(".button_outer");
+    btnUpload.on("change", function (e) {
+        var ext = btnUpload.val().split('.').pop().toLowerCase();
+        if ($.inArray(ext, ['gif', 'png', 'jpg', 'jpeg']) == -1) {
+            $(".error_msg").text("Not an Image...");
+        } else {
+            $(".error_msg").text("");
+            btnOuter.addClass("file_uploading");
+            setTimeout(function () {
+                btnOuter.addClass("file_uploaded");
+            }, 3000);
+            var uploadedFile = URL.createObjectURL(e.target.files[0]);
+            setTimeout(function () {
+                $("#uploaded_view").append('<img src="' + uploadedFile + '" />').addClass("show");
+            }, 3500);
+        }
+    });
+    $(".file_remove").on("click", function (e) {
+        $("#uploaded_view").removeClass("show");
+        $("#uploaded_view").find("img").remove();
+        btnOuter.removeClass("file_uploading");
+        btnOuter.removeClass("file_uploaded");
+    });
+</script>
+
+
